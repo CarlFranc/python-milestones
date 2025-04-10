@@ -95,12 +95,39 @@ def player_turns():
     return PLAYERS_INFO[last_turn]
 
 def check_for_wins(player):
-    if len(player["X_COORDINATES"]) == 3 and len(player["Y_COORDINATES"]) == 3:
-        for acceptable_avg in range(3):
-            if int((sum(player["X_COORDINATES"])) / len(player["X_COORDINATES"])) == acceptable_avg or int((sum(player["X_COORDINATES"])) / len(player["X_COORDINATES"])) == acceptable_avg:
-                return True
+    if len(player["X_COORDINATES"]) >= 3 and len(player["Y_COORDINATES"]) >= 3:
+        coords_x = player["X_COORDINATES"]
+        coords_y = player["Y_COORDINATES"]
+        if hasSequential(coords_x) and hasIdentical(coords_y):
+            return True
+        elif hasSequential(coords_y) and hasIdentical(coords_x):
+            return True
+        elif hasSequential(coords_x) and hasSequential(coords_y):
+            return True
+
     return False
 
+def hasSequential(num_list, max = 3):
+    num_list.sort()
+
+    hits = []
+
+    for index, nums in enumerate(num_list):
+        if len(set(hits)) == max:
+            return True
+        if index < len(num_list) - 1:
+            if (num_list[index + 1] - nums) == 1:
+                hits.append(nums)
+                hits.append(num_list[index + 1])
+    return False
+
+def hasIdentical(num_list, BOARD_SIZE = 3, max = 3):
+
+    for numbers in range(0, BOARD_SIZE):
+        if num_list.count(numbers) == max:
+            return True
+
+    return False
 
 playing_board = drawBoard()
 #playing_board = draw(([0, 1, 2], [3, 4, 5], [6, 7, 8]))
