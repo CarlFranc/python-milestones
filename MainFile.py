@@ -5,7 +5,7 @@ print('Welcome to tictac toe game!')
 
 PLAYER_1 = {
     "LABEL": "Player 1",
-    "ICON": "X",
+    "ICON": '\u2716',
     "WINS": 0,
     "LOSS": 0,
     "DRAW": 0,
@@ -16,7 +16,7 @@ PLAYER_1 = {
 
 PLAYER_2 = {
     "LABEL": "Player 2",
-    "ICON": "O",
+    "ICON": '\u25EF',
     "WINS": 0,
     "LOSS": 0,
     "DRAW": 0,
@@ -113,8 +113,6 @@ def receive_input(playing_board):
             show_statistics()
             receive_input(drawBoard())
 
-
-
 def updateBoard(BOARD, element, player):
     element_search = int(element)
     for index, rows in enumerate(BOARD):
@@ -141,28 +139,25 @@ def check_for_wins(player):
     if len(player["X_COORDINATES"]) >= FINAL_MINIMUM_COMBINATION and len(player["Y_COORDINATES"]) >= FINAL_MINIMUM_COMBINATION:
         coords_x = player["X_COORDINATES"]
         coords_y = player["Y_COORDINATES"]
-        print(f'{player['LABEL']} - X = {coords_x}')
-        print(f'{player['LABEL']} - Y = {coords_y}')
-        if hasSequential(coords_x) and hasIdentical(coords_y):
-            print('cond1')
-            return True
-        elif hasSequential(coords_y) and hasIdentical(coords_x):
-            print('cond2')
-            return True
+        if hasIdentical(coords_y):
+            if hasSequential(coords_x):
+                return True
+        elif hasIdentical(coords_x):
+            if hasSequential(coords_y):
+                return True
         elif hasSequential(coords_x) and hasSequential(coords_y):
-            print('cond3')
             return True
 
     return False
 
 def hasSequential(num_list, max = FINAL_MINIMUM_COMBINATION):
-    # num_list.sort()
-
+    num_list.sort()
+    num_list = list(set(num_list))
     hits = []
     for index, nums in enumerate(num_list):
         if len(set(hits)) == max:
             return True
-        if index < len(num_list) - (max - 1):
+        if index <= len(num_list) - (max - 1):
             if (num_list[index + 1] - nums) == 1:
                 hits.append(nums)
                 hits.append(num_list[index + 1])
@@ -213,4 +208,4 @@ playing_board = drawBoard()
 #playing_board = draw(([0, 1, 2], [3, 4, 5], [6, 7, 8]))
 receive_input(playing_board)
 
-#TODO: FIX DIAGONAL WIN
+# TODO: FIX DIAGONAL WIN
