@@ -10,8 +10,7 @@ PLAYER_1 = {
     "LOSS": 0,
     "DRAW": 0,
     "TURNS": 0,
-    "X_COORDINATES": [],
-    "Y_COORDINATES": []
+    "COORDS":[]
 }
 
 PLAYER_2 = {
@@ -21,8 +20,7 @@ PLAYER_2 = {
     "LOSS": 0,
     "DRAW": 0,
     "TURNS": 0,
-    "X_COORDINATES": [],
-    "Y_COORDINATES": []
+    "COORDS":[]
 }
 
 PLAYERS_INFO = (PLAYER_1,PLAYER_2)
@@ -119,8 +117,7 @@ def updateBoard(BOARD, element, player):
         if element_search in rows:
             col = rows.index(element_search)
             BOARD[index][col] = player['ICON']
-            player["X_COORDINATES"].append(index)
-            player["Y_COORDINATES"].append(col)
+            player["COORDS"].append((index, col))
 
     return BOARD
 
@@ -136,40 +133,44 @@ def player_turns():
     return PLAYERS_INFO[last_turn]
 
 def check_for_wins(player):
-    if len(player["X_COORDINATES"]) >= FINAL_MINIMUM_COMBINATION and len(player["Y_COORDINATES"]) >= FINAL_MINIMUM_COMBINATION:
-        coords_x = player["X_COORDINATES"]
-        coords_y = player["Y_COORDINATES"]
-        if hasIdentical(coords_y):
-            if hasSequential(coords_x):
-                return True
-        elif hasIdentical(coords_x):
-            if hasSequential(coords_y):
-                return True
-        elif hasSequential(coords_x) and hasSequential(coords_y):
+    if len(player["COORDS"]) >= FINAL_MINIMUM_COMBINATION:
+        if hasIdentical(player["COORDS"]):
+            return True
+        elif hasDiagonal(player["COORDS"]):
+            return True
+        elif hasAntiDiagonal(player["COORDS"]):
             return True
 
     return False
 
-def hasSequential(num_list, max = FINAL_MINIMUM_COMBINATION):
-    num_list.sort()
-    num_list = list(set(num_list))
-    hits = []
-    for index, nums in enumerate(num_list):
-        if len(set(hits)) == max:
+def hasIdentical(num_list, max = FINAL_MINIMUM_COMBINATION):
+
+    for nums in range(0, max):
+        result_y = [(x, y) for x, y in num_list if y == nums]
+        result_x = [(x, y) for x, y in num_list if x == nums]
+
+        if len(result_x) >= max or len(result_y) >= max:
             return True
-        if index <= len(num_list) - (max - 1):
-            if (num_list[index + 1] - nums) == 1:
-                hits.append(nums)
-                hits.append(num_list[index + 1])
-            else:
-                hits.clear()
+
     return False
 
-def hasIdentical(num_list, BOARD_SIZE = FINAL_BOARD_SIZE, max = FINAL_MINIMUM_COMBINATION):
+def hasAntiDiagonal(num_list, max = FINAL_MINIMUM_COMBINATION):
+    winning_coordinates = []
+    for x , y in num_list:
+        if (x + y) == (max - 1):
+            winning_coordinates.append((x, y))
+    if len(winning_coordinates) >= max:
+        return True
 
-    for numbers in range(0, BOARD_SIZE):
-        if num_list.count(numbers) == max:
-            return True
+    return False
+
+def hasDiagonal(num_list, max = FINAL_MINIMUM_COMBINATION):
+    winning_coordinates = []
+    for x, y in num_list:
+        if x == y:
+            winning_coordinates.append((x, y))
+    if len(winning_coordinates) >= max:
+        return True
 
     return False
 
@@ -196,16 +197,16 @@ def check_draw():
     return False
 
 def clear_moves():
-    PLAYER_1['X_COORDINATES'].clear()
-    PLAYER_1['Y_COORDINATES'].clear()
     PLAYER_1['TURNS'] = 0
-    PLAYER_2['X_COORDINATES'].clear()
-    PLAYER_2['Y_COORDINATES'].clear()
+    PLAYER_1['COORDS'].clear()
     PLAYER_2['TURNS'] = 0
+    PLAYER_2['COORDS'].clear()
+
+def check_diagonal_win(player):
+    for coordinates in player['COORDS']:
+        pass
 
 
 playing_board = drawBoard()
 #playing_board = draw(([0, 1, 2], [3, 4, 5], [6, 7, 8]))
 receive_input(playing_board)
-
-# TODO: FIX DIAGONAL WIN

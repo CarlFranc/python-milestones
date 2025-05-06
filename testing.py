@@ -96,10 +96,53 @@ def show_statistics():
     print(f"{'ICON':<12}{PLAYER_1['ICON']:>3}{'-':^8}{'ICON:':<12}{PLAYER_2['ICON']:>3}")
     print(f'----------------------------------------')
 
+def tuple_unpacking_test(num_list = [(0,1), (1,1), (2,1)]):
+    for x, y in num_list:
+        print(f'x is {x} - y is {y}')
+
+    x , y = zip(*num_list)
+
+    print(f'as list: {x} - {y}')
+
+def hasIdentical_alt(num_list = [(0,2), (1,2), (1,0), (2,1),(2,3)]):
+    for nums in range(0, 3):
+        result_y = [(x, y) for x, y in num_list if y == nums]
+        result_x = [(x, y) for x, y in num_list if x == nums]
+
+        if len(result_x) >= 3 or len(result_y) >= 3:
+            print(f'Result x: {result_x}')
+            print(f'Result y: {result_y}')
+            return True
+
+    return False
+
+def hasAntiDiagonal(num_list = [(0,2), (1,2), (1,0), (1,1),(2,0)], max=3):
+    winning_coordinates = []
+    for x, y in num_list:
+        if (x + y) == (max - 1):
+            winning_coordinates.append((x, y))
+    if len(winning_coordinates) >= max:
+        print(f'Winning coords: {winning_coordinates}')
+        return True
+
+    return False
+
+def hasDiagonal(num_list = [(2,2), (1,2), (1,1),(0,0)], max=3):
+    winning_coordinates = []
+    for x, y in num_list:
+        if x == y:
+            winning_coordinates.append((x, y))
+    if len(winning_coordinates) >= max:
+        print(f'Winning coords: {winning_coordinates}')
+        return True
+
+    return False
+
 
 # print(check_sequential_coordinates())
-print(hasSequential())
+# print(hasSequential())
 # my_list = [4, 1, 3, 2,6]
 # print(3 ** 2)
+print(hasDiagonal())
 
 
