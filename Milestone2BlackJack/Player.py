@@ -2,8 +2,9 @@ class Player:
 
     bankroll = 0.0
 
-    def __init__(self, name):
+    def __init__(self, name, hand):
         self.name = name
+        self.hand = hand
 
     def __str__(self):
         return f'I am Player {self.name}'
