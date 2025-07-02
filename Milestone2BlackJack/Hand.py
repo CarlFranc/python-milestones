@@ -17,7 +17,7 @@ class Hand:
     def get_sum(self):
         value = 0
         for cards in self.current_hand:
-            value += cards.rank
+            value += cards.value
 
         return value
 

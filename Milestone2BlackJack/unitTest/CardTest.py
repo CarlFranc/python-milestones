@@ -13,11 +13,11 @@ class MyTestCase(unittest.TestCase):
 
     def testRank(self):
         expected_rank = 8
-        self.assertEqual(expected_rank, self.my_card.rank)
+        self.assertEqual(expected_rank, self.my_card.value)
 
     def testStr(self):
         # expected_string = f'8 of CLUBS({'\u2663'})'
-        expected_string_alt = '8 of CLUBS(♣)'
+        expected_string_alt = 'EIGHT of CLUBS(♣)'
         self.assertEqual(expected_string_alt, str(self.my_card))
 
 
