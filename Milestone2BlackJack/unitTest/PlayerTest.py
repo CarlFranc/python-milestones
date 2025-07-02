@@ -1,14 +1,16 @@
-import copy
 import unittest
 from Milestone2BlackJack.Player import Player
+from Milestone2BlackJack.Hand import Hand
+from Milestone2BlackJack.Card import Card
 
 class MyTestCase(unittest.TestCase):
 
-    @classmethod
-    def setUpClass(cls):
+    def setUp(self):
         initial_amt = 100.0
-        cls.my_player = Player('Joey')
-        cls.my_player.initialize_bankroll(initial_amt)
+        jack_of_clubs = Card(Card.CLUBS, Card.JACK)
+        king_of_hearts = Card(Card.HEARTS, Card.HEARTS)
+        self.my_player = Player('Joey', Hand(jack_of_clubs, king_of_hearts))
+        self.my_player.initialize_bankroll(initial_amt)
 
     def testPlayerName(self):
         expected_name = 'Joey'
@@ -25,8 +27,7 @@ class MyTestCase(unittest.TestCase):
     def testBankrollDeduction(self):
         expected = 80.0
         deduction_amt = 20.0
-        my_player_copy = copy.deepcopy(self.my_player)
-        self.assertEqual(expected, my_player_copy.bankroll_deduct(deduction_amt))
+        self.assertEqual(expected, self.my_player.bankroll_deduct(deduction_amt))
 
 if __name__ == '__main__':
     unittest.main()

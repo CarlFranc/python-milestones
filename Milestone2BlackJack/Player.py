@@ -1,8 +1,9 @@
 class Player:
 
-    bankroll = 0.0
+
 
     def __init__(self, name, hand):
+        self.bankroll = 0.0
         self.name = name
         self.hand = hand
 
