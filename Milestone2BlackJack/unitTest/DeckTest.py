@@ -16,8 +16,8 @@ class MyTestCase(unittest.TestCase):
     def test_create_deck_contents(self):
         item = Card(Card.DIAMONDS, Card.EIGHT)
         result = self.my_deck.create_deck_cards()
-        for items in result:
-            print(items)
+
         self.assertTrue(item in result)
+
 if __name__ == '__main__':
     unittest.main()

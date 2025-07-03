@@ -1,3 +1,5 @@
+import random
+
 from Milestone2BlackJack.Card import Card
 
 class Deck:
@@ -11,4 +13,7 @@ class Deck:
             for rank in Card.RANKS:
                 deck.append(Card(suit, rank))
 
+        random.shuffle(deck)
         return deck
+
+

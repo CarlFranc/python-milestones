@@ -7,7 +7,7 @@ class MyTestCase(unittest.TestCase):
     def setUp(self):
         card_eight_of_hearts = Card(Card.HEARTS, Card.EIGHT)
         card_two_of_diamond = Card(Card.DIAMONDS, Card.TWO)
-        self.my_hand = Hand(card_eight_of_hearts, card_two_of_diamond)
+        self.my_hand = Hand(card_eight_of_hearts, card_two_of_diamond, False)
 
 
     def test_len_func(self):
@@ -28,6 +28,7 @@ class MyTestCase(unittest.TestCase):
         self.my_hand.addCard(Card(Card.SPADES, Card.NINE))
         self.assertEqual(expected_sum, self.my_hand.get_sum())
 
-
+    def test_showcards(self):
+        self.my_hand.show_cards()
 if __name__ == '__main__':
     unittest.main()
