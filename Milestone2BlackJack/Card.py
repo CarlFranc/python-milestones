@@ -1,66 +1,41 @@
 class Card:
 
-    CLUBS = 'CLUBS'
-    SPADES = 'SPADES'
-    HEARTS = 'HEARTS'
-    DIAMONDS = 'DIAMONDS'
+    CLUBS       = {'SUIT': 'CLUBS', 'ICON': '\u2663'}
+    SPADES      = {'SUIT': 'SPADES', 'ICON': '\u2660'}
+    HEARTS      = {'SUIT': 'HEARTS', 'ICON': '\u2665'}
+    DIAMONDS    = {'SUIT': 'DIAMONDS', 'ICON': '\u2666'}
 
-    SUITS = (CLUBS,SPADES,HEARTS,DIAMONDS)
+    TWO     = {'RANK': '2' ,'VALUE': 2}
+    THREE   = {'RANK': '3' ,'VALUE': 3}
+    FOUR    = {'RANK': '4' ,'VALUE': 4}
+    FIVE    = {'RANK': '5' ,'VALUE': 5}
+    SIX     = {'RANK': '6' ,'VALUE': 6}
+    SEVEN   = {'RANK': '7' ,'VALUE': 7}
+    EIGHT   = {'RANK': '8' ,'VALUE': 8}
+    NINE    = {'RANK': '9' ,'VALUE': 9}
+    TEN     = {'RANK': '10' ,'VALUE': 10}
+    JACK    = {'RANK': 'J' ,'VALUE': 10}
+    QUEEN   = {'RANK': 'Q' ,'VALUE': 10}
+    KING    = {'RANK': 'K' ,'VALUE': 10}
+    ACE     = {'RANK': 'A' ,'VALUE': 11}
 
-    CLUBS_ICON = '\u2663'
-    SPADES_ICON = '\u2660'
-    HEARTS_ICON = '\u2665'
-    DIAMONDS_ICON = '\u2666'
+    SUITS_LIST = (CLUBS, SPADES, HEARTS, DIAMONDS)
+    RANKS_LIST = (TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE)
 
-    suit_icons = {
-        CLUBS: CLUBS_ICON,
-        SPADES: SPADES_ICON,
-        HEARTS: HEARTS_ICON,
-        DIAMONDS: DIAMONDS_ICON
-    }
-
-    TWO     = 'TWO'
-    THREE   = 'THREE'
-    FOUR    = 'FOUR'
-    FIVE    = 'FIVE'
-    SIX     = 'SIX'
-    SEVEN   = 'SEVEN'
-    EIGHT   = 'EIGHT'
-    NINE    = 'NINE'
-    TEN     = 'TEN'
-    JACK    = 'JACK'
-    QUEEN   = 'QUEEN'
-    KING    = 'KING'
-    ACE     = 'ACE'  # OR 1
-
-    RANKS = (TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE)
-    VALUES = {
-        'TWO'   : 2,
-        'THREE' : 3,
-        'FOUR'  : 4,
-        'FIVE'  : 5,
-        'SIX'   : 6,
-        'SEVEN' : 7,
-        'EIGHT' : 8,
-        'NINE'  : 9,
-        'TEN'   : 10,
-        'JACK'  : 10,
-        'QUEEN' : 10,
-        'KING'  : 10,
-        'ACE'   : 11 # OR 1
-    }
-
-    def __init__(self, suit, rank):
+    def __init__(self, suit, rank, redacted):
         self.suit = suit
         self.rank = rank
-        self.value = self.VALUES[rank]
+        self.redacted = redacted
 
     def __str__(self):
-        return f'{self.rank} of {self.suit}({self.suit_icons[self.suit]})'
+        if not self.redacted:
+            return f'{self.rank['RANK']}({self.suit['ICON']})'
+        return '?(?)'
+
 
     def __eq__(self, other):
         if isinstance(other, Card):
-            return self.rank == other.rank and self.suit == other.suit and self.value == other.value
+            return self.rank['VALUE'] == other.rank['VALUE'] and self.suit['SUIT'] == other.suit['SUIT'] and self.rank['RANK'] == other.rank['RANK']
         return False
 
 

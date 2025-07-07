@@ -7,8 +7,8 @@ class MyTestCase(unittest.TestCase):
 
     def setUp(self):
         initial_amt = 100.0
-        jack_of_clubs = Card(Card.CLUBS, Card.JACK)
-        king_of_hearts = Card(Card.HEARTS, Card.KING)
+        jack_of_clubs = Card(Card.CLUBS, Card.JACK, False)
+        king_of_hearts = Card(Card.HEARTS, Card.KING, False)
         self.my_player = Player('Joey', Hand(jack_of_clubs, king_of_hearts))
         self.my_player.initialize_bankroll(initial_amt)
 

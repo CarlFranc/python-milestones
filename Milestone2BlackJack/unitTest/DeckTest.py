@@ -14,7 +14,7 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(expected_size, len(result))
 
     def test_create_deck_contents(self):
-        item = Card(Card.DIAMONDS, Card.EIGHT)
+        item = Card(Card.DIAMONDS, Card.EIGHT, False)
         result = self.my_deck.create_deck_cards()
 
         self.assertTrue(item in result)

@@ -9,9 +9,9 @@ class Deck:
 
     def create_deck_cards(self):
         deck = []
-        for suit in Card.SUITS:
-            for rank in Card.RANKS:
-                deck.append(Card(suit, rank))
+        for suit in Card.SUITS_LIST:
+            for rank in Card.RANKS_LIST:
+                deck.append(Card(suit, rank, False))
 
         random.shuffle(deck)
         return deck
