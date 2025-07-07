@@ -35,7 +35,7 @@ class Card:
 
     def __eq__(self, other):
         if isinstance(other, Card):
-            return self.rank['VALUE'] == other.rank['VALUE'] and self.suit['SUIT'] == other.suit['SUIT'] and self.rank['RANK'] == other.rank['RANK']
+            return self.rank['VALUE'] == other.rank['VALUE'] and self.suit['SUIT'] == other.suit['SUIT'] and self.rank['RANK'] == other.rank['RANK'] and self.redacted == other.redacted
         return False
 
 
