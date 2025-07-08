@@ -10,7 +10,6 @@ class MyTestCase(unittest.TestCase):
         card_four_of_diamond = Card(Card.DIAMONDS, Card.FOUR, True)
         self.my_hand = Hand(card_jack_of_hearts, card_four_of_diamond)
 
-
     def test_len_func(self):
         expected_hand_size = 2
         self.assertEqual(expected_hand_size, len(self.my_hand))
@@ -29,7 +28,7 @@ class MyTestCase(unittest.TestCase):
         self.my_hand.addCard(Card(Card.SPADES, Card.TWO, False))
         self.assertEqual(expected_sum, self.my_hand.get_sum())
 
-    def test_showcards(self):
+    def test_show_cards(self):
         player_name = 'Joey123'
         self.my_hand.addCard(Card(Card.CLUBS, Card.ACE, False))
         self.my_hand.show_cards(player_name)
