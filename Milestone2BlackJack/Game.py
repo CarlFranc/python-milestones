@@ -4,33 +4,53 @@ from Milestone2BlackJack.Deck import Deck
 from Milestone2BlackJack.Player import Player
 from Milestone2BlackJack.Hand import Hand
 
-deck = Deck()
-current_deck = deck.create_deck_cards()
+current_deck = []
+default_initial_bankroll = 1000.0
+player_comp = Player('Computer')
+player_1 = None
+player_current_bet = 0.0
+
+def initialize_deck():
+    deck = Deck()
+    return deck.create_deck_cards()
+
+def initialize_player():
+    player_1 = Player('Joey')
+    player_1.initialize_bankroll(default_initial_bankroll)
+    return player_1
+
+def show_banner(player, deck):
+    print(f"{' Welcome to Black Jack Game ':-^50}")
+    sleep(2)
+    print(f"{'CURRENT DECK':<15}{'.':.^26}{len(deck):>9}")
+    print(f"{'BANKROLL':<15}{'.':.^26}{player.bankroll:9,.2f}")
+
+def take_player_bet():
+    while True:
+        try:
+            bet_amt = float(input('BET? '))
+        except:
+            print('Invalid bet amount!')
+        else:
+            if not (bet_amt <= 0 or bet_amt > player_1.bankroll):
+                player_1.bankroll_deduct(bet_amt)
+                return bet_amt
+            else:
+                print('Invalid bet amount!')
+
+
+current_deck = initialize_deck()
+player_1 = initialize_player()
+show_banner(player_1, current_deck)
+
+player_current_bet = take_player_bet()
+
+print('Dealing cards...')
+sleep(2)
 comp_redacted_card = current_deck.pop()
 comp_redacted_card.redacted = True
-player_comp = Player('Computer', Hand(current_deck.pop(), comp_redacted_card))
-player_1 = Player('Joey', Hand(current_deck.pop(), current_deck.pop()))
-player_1.initialize_bankroll(1000)
-
-print(f"{' Welcome to Black Jack Game ':-^50}")
-# sleep(3)
-print(f"{'CURRENT DECK':<15}{'.':.^26}{len(current_deck):>9}")
-print(f"{'BANKROLL':<15}{'.':.^26}{player_1.bankroll:9,.2f}")
-
-while True:
-    try:
-        bet_amt = float(input('BET? '))
-    except:
-        print('Bet amount is not valid.')
-    else:
-        if not (bet_amt <= 0 or bet_amt > player_1.bankroll):
-            player_1.bankroll_deduct(bet_amt)
-            break
-        else:
-            print('Bet amount is not valid!')
-
-print('Showing cards...')
-sleep(2)
+player_comp.set_hand(Hand(current_deck.pop(), comp_redacted_card))
+player_1.set_hand(Hand(current_deck.pop(), current_deck.pop()))
 
 player_comp.hand.show_cards(player_comp.name)
 player_1.hand.show_cards(player_1.name)
