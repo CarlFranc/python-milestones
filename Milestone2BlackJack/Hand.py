@@ -1,3 +1,15 @@
+from Milestone2BlackJack.Card import Card
+
+def calculate_ace_value(other_card_sum):
+    ace_11 = (((11 + other_card_sum) <= 21) * 11) # 11
+    ace_1 = (((1 + other_card_sum) <= 21 ) * 1) # 1
+
+    if ace_1 == 0 and ace_11 == 0:
+        # bust
+        return 0
+
+    return int(ace_11 if ace_11 > ace_1 else ace_1)
+
 class Hand:
 
     def __init__(self, first_card, second_card):
@@ -20,30 +32,23 @@ class Hand:
 
     def get_sum(self):
         value = 0
+        aces_list = []
         for cards in self.current_hand:
             if not cards.redacted:
-                value += cards.rank['VALUE']
+                if cards.rank['RANK'] == Card.ACE['RANK']:
+                    aces_list.append(cards)
+                else:
+                    value += cards.rank['VALUE']
+
+        for aces in aces_list:
+            aces.rank['VALUE'] = calculate_ace_value(value)
+            value += 1 if aces.rank['VALUE'] == 0 else aces.rank['VALUE']
+
         self.current_sum = value
-        return value
+        return value if value <= 21 else f'{value}(BUST!)'
 
     def show_cards(self, player_name):
         card_section_size = len(player_name) * len(self.current_hand)
         print(f'{player_name:-^{card_section_size}}')
         print(*self.current_hand, sep=' | ')
-        print(f'{self.current_sum:-^{card_section_size}}')
-
-    def check_bust(self):
-        pass
-
-    def calculate_ace_value(self, other_card_sum):
-        ACE_11 = (((11 + other_card_sum) <= 21) * 11)
-        ACE_1 = (((1 + other_card_sum) <= 21 ) * 1)
-
-        if ACE_1 == 0 and ACE_11 == 0:
-            # bust
-            return 0
-
-        return int((ACE_11 + ACE_1 + abs(ACE_11 - ACE_1)) / 2)
-        # Case 1: 2 Aces
-
-        # Case 3: only 1 Ace and both 1 and 11 less than 21
+        print(f'{self.get_sum():-^{card_section_size}}')
