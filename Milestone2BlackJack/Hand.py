@@ -31,3 +31,19 @@ class Hand:
         print(f'{player_name:-^{card_section_size}}')
         print(*self.current_hand, sep=' | ')
         print(f'{self.current_sum:-^{card_section_size}}')
+
+    def check_bust(self):
+        pass
+
+    def calculate_ace_value(self, other_card_sum):
+        ACE_11 = (((11 + other_card_sum) <= 21) * 11)
+        ACE_1 = (((1 + other_card_sum) <= 21 ) * 1)
+
+        if ACE_1 == 0 and ACE_11 == 0:
+            # bust
+            return 0
+
+        return int((ACE_11 + ACE_1 + abs(ACE_11 - ACE_1)) / 2)
+        # Case 1: 2 Aces
+
+        # Case 3: only 1 Ace and both 1 and 11 less than 21

@@ -40,5 +40,10 @@ class MyTestCase(unittest.TestCase):
         new_sum = self.my_hand.get_sum()
         self.assertEqual(expected_sum, new_sum)
 
+    def test_calculate_ace(self):
+        expected = 1
+        result = self.my_hand.calculate_ace_value(other_card_sum = 20)
+        self.assertEqual(expected, result)
+
 if __name__ == '__main__':
     unittest.main()

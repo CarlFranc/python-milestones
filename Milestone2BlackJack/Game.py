@@ -1,3 +1,4 @@
+import os
 from time import sleep
 
 from Milestone2BlackJack.Deck import Deck
@@ -38,6 +39,26 @@ def take_player_bet():
             else:
                 print('Invalid bet amount!')
 
+def player_hit_or_stay_prompt():
+    while True:
+        try:
+            player_choice = int(input('Hit(1) or Stay(2)?: '))
+        except:
+            print('Invalid choice!')
+        else:
+            if player_choice == 1:
+                os.system('cls')
+                player_1.hand.addCard(current_deck.pop())
+                show_banner(player_1, current_deck)
+                player_comp.hand.show_cards(player_comp.name)
+                player_1.hand.show_cards(player_1.name)
+                break
+            elif player_choice == 2:
+                pass
+            else:
+                print('Invalid choice!')
+
+
 
 current_deck = initialize_deck()
 player_1 = initialize_player()
@@ -54,3 +75,4 @@ player_1.set_hand(Hand(current_deck.pop(), current_deck.pop()))
 
 player_comp.hand.show_cards(player_comp.name)
 player_1.hand.show_cards(player_1.name)
+player_hit_or_stay_prompt()
