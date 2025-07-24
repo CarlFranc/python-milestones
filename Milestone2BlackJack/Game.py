@@ -5,19 +5,13 @@ from Milestone2BlackJack.Deck import Deck
 from Milestone2BlackJack.Player import Player
 from Milestone2BlackJack.Hand import Hand
 
-current_deck = []
-default_initial_bankroll = 1000.0
-player_comp = Player('Computer')
-player_1 = None
-player_current_bet = 0.0
-
 def initialize_deck():
     deck = Deck()
     return deck.create_deck_cards()
 
-def initialize_player():
-    player_1 = Player('Joey')
-    player_1.initialize_bankroll(default_initial_bankroll)
+def initialize_player(bankroll_init):
+    if bankroll_init:
+        player_1.initialize_bankroll(default_initial_bankroll)
     return player_1
 
 def show_banner(player, deck):
@@ -40,7 +34,7 @@ def take_player_bet():
                 print('Invalid bet amount!')
 
 def player_hit_or_stay_prompt():
-    while True:
+    while player_1.hand.current_sum <= 21:
         try:
             player_choice = int(input('Hit(1) or Stay(2)?: '))
         except:
@@ -52,27 +46,65 @@ def player_hit_or_stay_prompt():
                 show_banner(player_1, current_deck)
                 player_comp.hand.show_cards(player_comp.name)
                 player_1.hand.show_cards(player_1.name)
-                break
+                if player_1.hand.current_sum > 21:
+                    print('YOU LOSE')
+                    break
             elif player_choice == 2:
-                pass
+                os.system('cls')
+            else:
+                print('Invalid choice!')
+                break
+
+def show_menu():
+    global initialize_bankroll
+    while True:
+        try:
+            print(f'{' GAME OVER ':-^48}')
+            print(f'{'CONTINUE (1)':<16}{'RESTART GAME (2)':^16}{'QUIT (3)':>16}')
+            user_choice = int(input('Choose: '))
+        except:
+            print('Invalid choice!')
+        else:
+            if user_choice == 1:
+                os.system('cls')
+                if player_1.bankroll <= 0:
+                    print(f'Not enough money to continue')
+                else:
+                    initialize_bankroll = False
+                    break
+            elif user_choice == 2:
+                os.system('cls')
+                initialize_bankroll = True
+                break
+            elif user_choice == 3:
+                print('Bye')
+                exit(0)
             else:
                 print('Invalid choice!')
 
+if __name__ == '__main__':
+    current_deck = []
+    default_initial_bankroll = 1000.0
+    player_comp = Player('Computer')
+    player_1 = Player('Joey11')
+    player_current_bet = 0.0
+    initialize_bankroll = True
 
+    while True:
+        current_deck = initialize_deck()
+        player_1 = initialize_player(initialize_bankroll)
+        show_banner(player_1, current_deck)
 
-current_deck = initialize_deck()
-player_1 = initialize_player()
-show_banner(player_1, current_deck)
+        player_current_bet = take_player_bet()
 
-player_current_bet = take_player_bet()
+        print('Dealing cards...')
+        sleep(2)
+        comp_redacted_card = current_deck.pop()
+        comp_redacted_card.redacted = True
+        player_comp.set_hand(Hand(current_deck.pop(), comp_redacted_card))
+        player_1.set_hand(Hand(current_deck.pop(), current_deck.pop()))
 
-print('Dealing cards...')
-sleep(2)
-comp_redacted_card = current_deck.pop()
-comp_redacted_card.redacted = True
-player_comp.set_hand(Hand(current_deck.pop(), comp_redacted_card))
-player_1.set_hand(Hand(current_deck.pop(), current_deck.pop()))
-
-player_comp.hand.show_cards(player_comp.name)
-player_1.hand.show_cards(player_1.name)
-player_hit_or_stay_prompt()
+        player_comp.hand.show_cards(player_comp.name)
+        player_1.hand.show_cards(player_1.name)
+        player_hit_or_stay_prompt()
+        show_menu()
