@@ -51,9 +51,36 @@ def player_hit_or_stay_prompt():
                     break
             elif player_choice == 2:
                 os.system('cls')
+                computer_action(current_deck, player_1, player_comp)
+                break
             else:
                 print('Invalid choice!')
                 break
+
+def computer_action(cur_deck, player1, playercomp):
+    playercomp.hand.current_hand = list(map(lambda cards: (setattr(cards, 'redacted', False) or cards) if cards.redacted else cards, playercomp.hand.current_hand))
+    show_banner(player1, cur_deck)
+    playercomp.hand.show_cards(playercomp.name)
+    player1.hand.show_cards(player1.name)
+    while True:
+        if playercomp.hand.current_sum > 21:
+            print('Computer busts, you win!')
+            player1.bankroll += (player_current_bet * 2)
+            show_banner(player1, cur_deck)
+            break
+        elif playercomp.hand.current_sum <= player1.hand.current_sum:
+            print('Computer hits...')
+            print('Please wait...')
+            sleep(5)
+            os.system('cls')
+            playercomp.hand.addCard(cur_deck.pop())
+            show_banner(player1, cur_deck)
+            playercomp.hand.show_cards(playercomp.name)
+            player1.hand.show_cards(player1.name)
+
+        elif (playercomp.hand.current_sum > player1.hand.current_sum) and playercomp.hand.current_sum <= 21:
+            print('Computer wins')
+            break
 
 def show_menu():
     global initialize_bankroll
