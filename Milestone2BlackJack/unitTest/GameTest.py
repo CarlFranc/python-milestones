@@ -1,10 +1,10 @@
 import unittest
 from Milestone2BlackJack.Game import show_menu
 from Milestone2BlackJack.Game import computer_action
-from Milestone2BlackJack.Deck import Deck
-from Milestone2BlackJack.Player import Player
-from Milestone2BlackJack.Hand import Hand
-from Milestone2BlackJack.Card import Card
+from Milestone2BlackJack.components.Deck import Deck
+from Milestone2BlackJack.components.Player import Player
+from Milestone2BlackJack.components.Hand import Hand
+from Milestone2BlackJack.components.Card import Card
 
 
 class MyTestCase(unittest.TestCase):

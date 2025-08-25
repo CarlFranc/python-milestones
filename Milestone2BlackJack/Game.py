@@ -1,9 +1,9 @@
 import os
 from time import sleep
 
-from Milestone2BlackJack.Deck import Deck
-from Milestone2BlackJack.Player import Player
-from Milestone2BlackJack.Hand import Hand
+from components.Deck import Deck
+from components.Player import Player
+from components.Hand import Hand
 
 def initialize_deck():
     deck = Deck()

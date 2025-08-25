@@ -1,6 +1,6 @@
 import unittest
-from Milestone2BlackJack.Hand import Hand, calculate_ace_value
-from Milestone2BlackJack.Card import Card
+from Milestone2BlackJack.components.Hand import Hand, calculate_ace_value
+from Milestone2BlackJack.components.Card import Card
 
 class MyTestCase(unittest.TestCase):
 

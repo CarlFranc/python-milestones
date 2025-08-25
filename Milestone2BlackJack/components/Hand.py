@@ -1,4 +1,4 @@
-from Milestone2BlackJack.Card import Card
+from .Card import Card
 
 def calculate_ace_value(other_card_sum):
     ace_11 = (((11 + other_card_sum) <= 21) * 11) # 11

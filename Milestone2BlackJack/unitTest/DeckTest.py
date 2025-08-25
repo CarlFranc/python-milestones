@@ -1,6 +1,6 @@
 import unittest
-from Milestone2BlackJack.Deck import Deck
-from Milestone2BlackJack.Card import Card
+from Milestone2BlackJack.components.Deck import Deck
+from Milestone2BlackJack.components.Card import Card
 
 
 class MyTestCase(unittest.TestCase):

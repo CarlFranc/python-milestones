@@ -1,5 +1,5 @@
 import unittest
-from Milestone2BlackJack.Card import Card
+from ..components.Card import Card
 
 class MyTestCase(unittest.TestCase):
 

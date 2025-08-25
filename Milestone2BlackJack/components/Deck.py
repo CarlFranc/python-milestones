@@ -1,6 +1,6 @@
 import random
 
-from Milestone2BlackJack.Card import Card
+from .Card import Card
 
 class Deck:
 
