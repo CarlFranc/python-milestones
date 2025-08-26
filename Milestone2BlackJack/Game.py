@@ -41,7 +41,7 @@ def player_hit_or_stay_prompt():
             print('Invalid choice!')
         else:
             if player_choice == 1:
-                os.system('cls')
+                clear_screen()
                 player_1.hand.addCard(current_deck.pop())
                 show_banner(player_1, current_deck)
                 player_comp.hand.show_cards(player_comp.name)
@@ -50,7 +50,7 @@ def player_hit_or_stay_prompt():
                     print('YOU LOSE')
                     break
             elif player_choice == 2:
-                os.system('cls')
+                clear_screen()
                 computer_action(current_deck, player_1, player_comp)
                 break
             else:
@@ -72,7 +72,7 @@ def computer_action(cur_deck, player1, playercomp):
             print('Computer hits...')
             print('Please wait...')
             sleep(5)
-            os.system('cls')
+            clear_screen()
             playercomp.hand.addCard(cur_deck.pop())
             show_banner(player1, cur_deck)
             playercomp.hand.show_cards(playercomp.name)
@@ -93,14 +93,14 @@ def show_menu():
             print('Invalid choice!')
         else:
             if user_choice == 1:
-                os.system('cls')
+                clear_screen()
                 if player_1.bankroll <= 0:
                     print(f'Not enough money to continue')
                 else:
                     initialize_bankroll = False
                     break
             elif user_choice == 2:
-                os.system('cls')
+                clear_screen()
                 initialize_bankroll = True
                 break
             elif user_choice == 3:
@@ -108,6 +108,12 @@ def show_menu():
                 exit(0)
             else:
                 print('Invalid choice!')
+
+def clear_screen():
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
 
 if __name__ == '__main__':
     current_deck = []
