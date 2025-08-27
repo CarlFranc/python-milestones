@@ -1,5 +1,5 @@
 import unittest
-from ..components.Card import Card
+from Milestone2BlackJack.components.Card import Card
 
 class MyTestCase(unittest.TestCase):
 
@@ -22,8 +22,6 @@ class MyTestCase(unittest.TestCase):
     def test_value(self):
         expected_value = 10
         self.assertEqual(expected_value, self.my_card.rank['VALUE'])
-
-
 
 
 if __name__ == '__main__':
