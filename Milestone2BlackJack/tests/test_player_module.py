@@ -1,11 +1,10 @@
-import unittest
 from Milestone2BlackJack.components.Player import Player
 from Milestone2BlackJack.components.Hand import Hand
 from Milestone2BlackJack.components.Card import Card
 
-class MyTestCase(unittest.TestCase):
+class TestPlayerModule:
 
-    def setUp(self):
+    def setup_method(self):
         initial_amt = 100.0
         jack_of_clubs = Card(Card.CLUBS, Card.JACK, False)
         king_of_hearts = Card(Card.HEARTS, Card.KING, False)
@@ -13,22 +12,20 @@ class MyTestCase(unittest.TestCase):
         self.my_player.set_hand(Hand(jack_of_clubs, king_of_hearts))
         self.my_player.initialize_bankroll(initial_amt)
 
-    def testPlayerName(self):
+    def test_player_name(self):
         expected_name = 'Joey'
-        self.assertEqual(expected_name, self.my_player.name)
+        assert self.my_player.name == expected_name
 
-    def testPlayerClassStr(self):
+    def test_player_class_str(self):
         expected = 'I am Player Joey'
-        self.assertEqual(expected, str(self.my_player))
+        assert str(self.my_player) == expected
 
     def test_initialize_bankroll(self):
         expected = 100.0
-        self.assertEqual(expected, self.my_player.bankroll)
+        assert self.my_player.bankroll == expected
 
-    def testBankrollDeduction(self):
+    def test_bankroll_deduction(self):
         expected = 80.0
         deduction_amt = 20.0
-        self.assertEqual(expected, self.my_player.bankroll_deduct(deduction_amt))
+        assert self.my_player.bankroll_deduct(deduction_amt) == expected
 
-if __name__ == '__main__':
-    unittest.main()
