@@ -1,7 +1,7 @@
 import os
 from time import sleep
 
-from Milestone2BlackJack.components.Card import Card
+from components.Card import Card
 from components.Deck import Deck
 from components.Player import Player
 from components.Hand import Hand
