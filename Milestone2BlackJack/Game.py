@@ -1,53 +1,69 @@
 import os
 from time import sleep
 
+from Milestone2BlackJack.components.Card import Card
 from components.Deck import Deck
 from components.Player import Player
 from components.Hand import Hand
 
+current_deck = []
+default_initial_bankroll = 1000.0
+player_comp = Player('Computer')
+player_1 = Player('Joey11')
+player_current_bet = 0.0
+initialize_bankroll = True
+
+
 def initialize_deck():
     deck = Deck()
     return deck.create_deck_cards()
+
 
 def initialize_player(bankroll_init):
     if bankroll_init:
         player_1.initialize_bankroll(default_initial_bankroll)
     return player_1
 
-def show_banner(player, deck):
+
+def show_banner(player: Player, deck: list) -> None:
     print(f"{' Welcome to Black Jack Game ':-^50}")
     sleep(2)
     print(f"{'CURRENT DECK':<15}{'.':.^26}{len(deck):>9}")
     print(f"{'BANKROLL':<15}{'.':.^26}{player.bankroll:9,.2f}")
 
-def take_player_bet():
+
+def take_player_bet() -> float:
     while True:
-        try:
-            bet_amt = float(input('BET? '))
-        except:
-            print('Invalid bet amount!')
+        bet = validate_user_bet_input()
+        if type(bet) is float:
+            return bet
+
+
+def validate_user_bet_input() -> None | float:
+    try:
+        bet_amt = float(input('BET? '))
+    except ValueError as valueError:
+        print(f'Input error: {valueError}')
+    except TypeError as typeError:
+        print(f'Exception TypeError: {typeError}')
+    else:
+        if not (bet_amt <= 0 or bet_amt > player_1.bankroll):
+            player_1.bankroll_deduct(bet_amt)
+            return bet_amt
         else:
-            if not (bet_amt <= 0 or bet_amt > player_1.bankroll):
-                player_1.bankroll_deduct(bet_amt)
-                return bet_amt
-            else:
-                print('Invalid bet amount!')
+            print('Invalid bet amount!')
+
 
 def player_hit_or_stay_prompt():
     while player_1.hand.current_sum <= 21:
         try:
             player_choice = int(input('Hit(1) or Stay(2)?: '))
-        except:
+        except ValueError:
             print('Invalid choice!')
         else:
             if player_choice == 1:
-                clear_screen()
-                player_1.hand.addCard(current_deck.pop())
-                show_banner(player_1, current_deck)
-                player_comp.hand.show_cards(player_comp.name)
-                player_1.hand.show_cards(player_1.name)
-                if player_1.hand.current_sum > 21:
-                    print('YOU LOSE')
+                result = player_hit()
+                if not result:
                     break
             elif player_choice == 2:
                 clear_screen()
@@ -57,30 +73,52 @@ def player_hit_or_stay_prompt():
                 print('Invalid choice!')
                 break
 
-def computer_action(cur_deck, player1, playercomp):
-    playercomp.hand.current_hand = list(map(lambda cards: (setattr(cards, 'redacted', False) or cards) if cards.redacted else cards, playercomp.hand.current_hand))
+
+def player_hit() -> bool:
+    clear_screen()
+    player_1.hand.addCard(current_deck.pop())
+    show_banner(player_1, current_deck)
+    player_comp.hand.show_cards(player_comp.name)
+    player_1.hand.show_cards(player_1.name)
+    if player_1.hand.current_sum > 21:
+        print('YOU LOSE')
+        return False
+    return True
+
+
+def computer_action(cur_deck, player1, player_computer):
+    player_computer.hand.current_hand = show_all_cards(player_computer.hand)
     show_banner(player1, cur_deck)
-    playercomp.hand.show_cards(playercomp.name)
+    player_computer.hand.show_cards(player_computer.name)
     player1.hand.show_cards(player1.name)
     while True:
-        if playercomp.hand.current_sum > 21:
+        if player_computer.hand.get_sum() > 21:
             print('Computer busts, you win!')
             player1.bankroll += (player_current_bet * 2)
             show_banner(player1, cur_deck)
             break
-        elif playercomp.hand.current_sum <= player1.hand.current_sum:
+        elif player_computer.hand.get_sum() <= player1.hand.get_sum():
             print('Computer hits...')
             print('Please wait...')
             sleep(5)
             clear_screen()
-            playercomp.hand.addCard(cur_deck.pop())
+            player_computer.hand.addCard(cur_deck.pop())
             show_banner(player1, cur_deck)
-            playercomp.hand.show_cards(playercomp.name)
+            player_computer.hand.show_cards(player_computer.name)
             player1.hand.show_cards(player1.name)
 
-        elif (playercomp.hand.current_sum > player1.hand.current_sum) and playercomp.hand.current_sum <= 21:
+        elif (player_computer.hand.get_sum() > player1.hand.get_sum()) and player_computer.hand.get_sum() <= 21:
             print('Computer wins')
             break
+
+
+def show_all_cards(player_hand: Hand) -> list[Card]:
+    def show(cards: Card) -> Card:
+        if cards.redacted:
+            cards.redacted = False
+        return cards
+
+    return list(map(show, player_hand.current_hand))
 
 def show_menu():
     global initialize_bankroll
@@ -109,20 +147,15 @@ def show_menu():
             else:
                 print('Invalid choice!')
 
+
 def clear_screen():
     if os.name == 'nt':
         os.system('cls')
     else:
         os.system('clear')
 
-if __name__ == '__main__':
-    current_deck = []
-    default_initial_bankroll = 1000.0
-    player_comp = Player('Computer')
-    player_1 = Player('Joey11')
-    player_current_bet = 0.0
-    initialize_bankroll = True
 
+if __name__ == '__main__':
     while True:
         current_deck = initialize_deck()
         player_1 = initialize_player(initialize_bankroll)

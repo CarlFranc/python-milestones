@@ -1,10 +1,10 @@
-from Milestone2BlackJack.components.Hand import Hand, calculate_ace_value
+from Milestone2BlackJack.components.Hand import Hand
 from Milestone2BlackJack.components.Card import Card
 
 
 class TestHandModule:
 
-    def setup_method(self, method):
+    def setup_method(self):
         self.card_jack_of_hearts = Card(Card.HEARTS, Card.JACK, False)
         self.card_four_of_diamond = Card(Card.DIAMONDS, Card.FOUR, True)
         self.my_hand = Hand(self.card_jack_of_hearts, self.card_four_of_diamond)
@@ -101,15 +101,15 @@ class TestHandModule:
 
     def test_calculate_ace_1(self):
         expected = 1
-        result = calculate_ace_value(other_card_sum = 20)
+        result = Hand.calculate_ace_value(other_card_sum = 20)
         assert result == expected
 
     def test_calculate_ace_bust(self):
         expected = 0
-        result = calculate_ace_value(other_card_sum = 21)
+        result = Hand.calculate_ace_value(other_card_sum = 21)
         assert result == expected
 
     def test_calculate_ace_11(self):
         expected = 11
-        result = calculate_ace_value(other_card_sum = 9)
+        result = Hand.calculate_ace_value(other_card_sum = 9)
         assert result == expected

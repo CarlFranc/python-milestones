@@ -1,6 +1,9 @@
+from .Hand import Hand
+
 class Player:
 
     def __init__(self, name):
+        self.hand = Hand(first_card=None, second_card=None)
         self.bankroll = 0.0
         self.name = name
 
@@ -10,7 +13,7 @@ class Player:
     def initialize_bankroll(self, starting_amt):
         self.bankroll = starting_amt
 
-    def bankroll_deduct(self, amount):
+    def bankroll_deduct(self, amount: float) -> float | bool:
         try:
             self.bankroll -= amount
         except:
