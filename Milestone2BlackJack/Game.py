@@ -11,7 +11,7 @@ default_initial_bankroll = 1000.0
 player_comp = Player('Computer')
 player_1 = Player('Joey11')
 player_current_bet = 0.0
-initialize_bankroll = True
+initialize_bankroll_bool = True
 
 
 def initialize_deck():
@@ -121,7 +121,7 @@ def show_all_cards(player_hand: Hand) -> list[Card]:
     return list(map(show, player_hand.current_hand))
 
 def show_menu():
-    global initialize_bankroll
+    global initialize_bankroll_bool
     while True:
         try:
             print(f'{' GAME OVER ':-^48}')
@@ -135,11 +135,11 @@ def show_menu():
                 if player_1.bankroll <= 0:
                     print(f'Not enough money to continue')
                 else:
-                    initialize_bankroll = False
+                    initialize_bankroll_bool = False
                     break
             elif user_choice == 2:
                 clear_screen()
-                initialize_bankroll = True
+                initialize_bankroll_bool = True
                 break
             elif user_choice == 3:
                 print('Bye')
@@ -158,7 +158,7 @@ def clear_screen():
 if __name__ == '__main__':
     while True:
         current_deck = initialize_deck()
-        player_1 = initialize_player(initialize_bankroll)
+        player_1 = initialize_player(initialize_bankroll_bool)
         show_banner(player_1, current_deck)
 
         player_current_bet = take_player_bet()
